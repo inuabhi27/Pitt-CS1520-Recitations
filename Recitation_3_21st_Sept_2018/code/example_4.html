@@ -1,3 +1,9 @@
 <body onclick="alert(`the bubbling doesn't reach here`)">
-  <button onclick="event.stopPropagation()">Click me</button>
+  <button onclick="btn_click();">Click me</button>
+  <script>
+  	function btn_click(){
+  		alert("btn was clicked!");
+  		event.stopPropagation();
+  	}
+  </script>
 </body>
