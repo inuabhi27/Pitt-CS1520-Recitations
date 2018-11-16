@@ -11,7 +11,7 @@ class User(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(24), nullable=False)
 	email = db.Column(db.String(80), nullable=False)
-	pw_hash = db.Column(db.String(64), nullable=False)
+	pw_hash = db.Column(db.String(128), nullable=False)
 	cart = db.relationship('Item', secondary=cart, lazy='subquery', backref=db.backref('users', lazy=True))
 	
 	def __init__(self, username, email, pw_hash):

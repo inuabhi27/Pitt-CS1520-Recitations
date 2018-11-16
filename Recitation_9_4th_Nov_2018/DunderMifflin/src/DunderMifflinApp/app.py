@@ -1,12 +1,14 @@
 from flask import Flask, request, session, url_for, redirect, render_template, abort, g, flash, _app_ctx_stack
 from models import db, User, Item
 from werkzeug import check_password_hash, generate_password_hash
+import os
 
 ### Initialization
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', "my_super_secret_key_123434")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///test.db')
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:123456@localhost')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = "my_super_secret_key_123434"
 db.init_app(app)
 
 @app.cli.command('initdb')
@@ -16,7 +18,7 @@ def initdb_command():
 	db.create_all()
 	print('Initialized the database.')
 
-@app.cli.command('populate_dummy_data')
+@app.cli.command('bootstrap')
 def populate_dummy_data_command():
 
 	user1 = User("maher456", "maher456@gmail.com", generate_password_hash("45678"))
